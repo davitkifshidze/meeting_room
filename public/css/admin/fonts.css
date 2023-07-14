@@ -1,0 +1,10 @@
+@font-face {
+    font-family: "Noto Sans Georgian";
+    src: url("../../assets/fonts/NotoSansGeorgian-VariableFont_wdth,wght.ttf");
+    font-weight: normal;
+}
+@font-face {
+    font-family: "Noto Sans Georgian Bold";
+    src: url("../../assets/fonts/NotoSansGeorgian-VariableFont_wdth,wght.ttf");
+    font-weight: bold;
+}
