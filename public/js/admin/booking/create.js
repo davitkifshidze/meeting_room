@@ -147,12 +147,13 @@ $("#room__select").on('change', function() {
 
                         time_boxes.forEach(time_box => {
                             time_box.addEventListener("click", handleTimeBoxClick);
+
                         });
 
                         let store_data = [] ;
-                        store_data.push(selected_date);
-                        store_data.push(selected_times);
+                      
                         console.log(store_data)
+                        console.log(selected_times)
 
                         $.ajax({
                             url: '/booking/create',
