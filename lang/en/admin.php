@@ -40,7 +40,9 @@ return [
     'make_booking' => 'Booking',
     'booking_calendar' => 'Booking Calendar',
     'booking_time' => 'Booking Time',
-
+    'new_booking' => 'New Booking',
+    'room_name' => 'Room Name',
+    'username' => 'Username',
 
 
     // Login

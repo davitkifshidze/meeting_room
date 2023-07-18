@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Booking;
 use App\Models\Room;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class BookingController extends Controller
@@ -15,6 +18,16 @@ class BookingController extends Controller
      */
     public function index()
     {
+        DB::enableQueryLog();
+        $bookings = Booking::select('bookings.id','bookings.room_id','bookings.user_id', 'room_translations.name as room_name', 'users.name as username', 'bookings.start_date', 'bookings.end_date')
+            ->join('room_translations','room_translations.room_id','=','bookings.room_id')
+            ->join('users','users.id','=','bookings.user_id')
+            ->where('room_translations.locale', '=', LaravelLocalization::getCurrentLocale())
+            ->get();
+        $query = DB::getQueryLog();
+//        dd($query);
+
+        return view('admin.booking.index', compact('bookings'));
 
     }
 
@@ -49,13 +62,57 @@ class BookingController extends Controller
 
     }
 
+    /**
+     * Room Booking Info
+     */
+    public function room_booking_info($room_id, $selected_date)
+    {
+
+        $booking = Booking::select('bookings.id', 'bookings.room_id', 'bookings.start_date', 'bookings.end_date')
+            ->where('bookings.room_id', '=', $room_id)
+            ->where('bookings.start_date', 'LIKE', '%' . $selected_date . '%')
+            ->get();
+
+        if (!$booking->isEmpty()) {
+            return response()->json(['booking' => $booking]);
+        } else {
+            return response()->json(false);
+        }
+
+
+    }
+
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        dd($request);
+
+        try{
+            foreach($request->dates as $key => $item):
+
+                $carbon = Carbon::createFromFormat('Y-m-d H:i', $item);
+                $carbon->addMinutes(15);
+                $end_date = $carbon->format('Y-m-d H:i');
+
+                $booking = Booking::create([
+                    'room_id' => $request->room_id,
+                    'user_id' => $request->user_id,
+                    'start_date' => $item,
+                    'end_date' => $end_date,
+                ]);
+
+            endforeach;
+
+            return response()->json(['success' => 'booking_succes']);
+
+
+        } catch (\Exception $e) {
+
+            return response()->json(['warning' => 'not booking']);
+
+        }
 
     }
 

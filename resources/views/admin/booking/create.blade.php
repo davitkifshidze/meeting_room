@@ -91,7 +91,10 @@
 
 
                     <div class="create__submit__container">
-                        <input type="submit" value="{{ __('admin.make_booking') }}" class="create__btn">
+
+                        <a id="create__booking" href="javascript:void(0)"  class="create__btn">
+                            {{ __('admin.make_booking') }}
+                        </a>
 
                         <a href="{{ route('booking_list') }}" class="cancel__btn">
                             {{ __('admin.cancel') }}

@@ -40,16 +40,16 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function()
             Route::get('/room/create', [RoomController::class, 'create'])->name('room_create');
             Route::post('/room/store', [RoomController::class, 'store'])->name('room_store');
             Route::get('/room/{id}/edit', [RoomController::class, 'edit'])->name('room_edit');
-            Route::delete('/room/{id}', [RoomController::class, 'destroy'])->name('room_delete');
             Route::put('/room/{id}', [RoomController::class, 'update'])->name('room_update');
+            Route::delete('/room/{id}', [RoomController::class, 'destroy'])->name('room_delete');
 
             Route::get('/booking', [BookingController::class, 'index'])->name('booking_list');
             Route::get('/booking/create', [BookingController::class, 'create'])->name('booking_create');
             Route::get('/booking/room_info/{id}', [BookingController::class, 'room_info'])->name('room_info');
+            Route::get('/booking/room_booking_info/{id}/{selected_date}', [BookingController::class, 'room_booking_info'])->name('room_booking_info');
             Route::post('/booking/create', [BookingController::class, 'store'])->name('booking_store');
-            Route::delete('/booking/{id}', [BookingController::class, 'destroy'])->name('delete_booking');
-            Route::get('/booking/room/{id}', [BookingController::class, 'room'])->name('room');
-
+            Route::put('/booking/{id}', [BookingController::class, 'update'])->name('booking_update');
+            Route::delete('/booking/{id}', [BookingController::class, 'destroy'])->name('booking_delete');
 
         });
 

@@ -35,6 +35,9 @@ return [
     'make_booking' => 'დაჯავშნა',
     'booking_calendar' => 'ჯავშნის კალენდარი',
     'booking_time' => 'ჯავშნის დრო',
+    'new_booking' => 'ახალი ჯავშანი',
+    'room_name' => 'ოთახის დასახელება',
+    'username' => 'მომხმარებელი',
 
     // Login
     'welcome' => 'გამარჯობა!!!',

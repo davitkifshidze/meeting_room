@@ -19,7 +19,7 @@ return new class extends Migration
             $table->datetime('end_date');
             $table->timestamps();
 
-            $table->unique(['room_id', 'user_id', 'start_date', 'end_date']);
+            $table->unique(['room_id', 'start_date', 'end_date']);
 
             $table->foreign('room_id')->references('id')->on('rooms')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

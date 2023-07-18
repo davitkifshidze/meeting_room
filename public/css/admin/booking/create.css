@@ -230,7 +230,7 @@
 }
 .xdsoft_datetimepicker .xdsoft_calendar td, .xdsoft_datetimepicker .xdsoft_calendar th{
     width: 14.2857142%;
-    height: 50px;
+    height: 80px;
 }
 .xdsoft_datetimepicker .xdsoft_calendar td.xdsoft_default, .xdsoft_datetimepicker .xdsoft_calendar td.xdsoft_current, .xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_time_box >div >div.xdsoft_current{
     background: var(--todua-blue);
@@ -242,8 +242,11 @@
 .xdsoft_datetimepicker .xdsoft_calendar td > div{
     color: white !important;
 }
-.xdsoft_datetimepicker .xdsoft_calendar td, .xdsoft_datetimepicker .xdsoft_calendar th{
+.xdsoft_datetimepicker .xdsoft_calendar td{
     background: var(--todua-blue-dark);
+}
+.xdsoft_datetimepicker .xdsoft_calendar th{
+    background: #009ca4;;
 }
 
 .xdsoft_datetimepicker .xdsoft_calendar td:hover, .xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_time_box >div >div:hover{
@@ -314,7 +317,7 @@
 }
 .xdsoft_datetimepicker .xdsoft_today_button:after{
     font-family: 'Noto Sans Georgian', serif;
-    content: 'ახლა';
+    content: 'დღეს';
     display: flex;
     width: 250px;
     height: 30px;
@@ -387,6 +390,7 @@ span{
     flex-wrap: wrap;
     align-items: center;
 }
+
 .time__box{
     display: flex;
     justify-content: center;
@@ -394,10 +398,11 @@ span{
     padding: 15px 20px;
     min-width: 100px;
     min-height: 90px;
-    border: 1px solid var(--todua-blue-dark);
+    border: 1px solid #cbcbcb;
     margin: 10px 10px 10px 0;
     cursor: pointer;
 }
+
 .time__box:hover{
     background-color: var(--todua-blue-dark);
     color: white;
@@ -406,6 +411,18 @@ span{
 .time__selected {
     background-color: var(--todua-blue-dark);
     color: white;
+}
+
+.close{
+    background-color: #dbdbdb;
+    color: black;
+    cursor: not-allowed;
+}
+
+.reserved{
+    background-color: #e27d87;
+    color: white;
+    cursor: not-allowed;
 }
 
 /* Responsive */
