@@ -18,14 +18,11 @@ class BookingController extends Controller
      */
     public function index()
     {
-        DB::enableQueryLog();
         $bookings = Booking::select('bookings.id','bookings.room_id','bookings.user_id', 'room_translations.name as room_name', 'users.name as username', 'bookings.start_date', 'bookings.end_date')
             ->join('room_translations','room_translations.room_id','=','bookings.room_id')
             ->join('users','users.id','=','bookings.user_id')
             ->where('room_translations.locale', '=', LaravelLocalization::getCurrentLocale())
-            ->get();
-        $query = DB::getQueryLog();
-//        dd($query);
+            ->Paginate(15);
 
         return view('admin.booking.index', compact('bookings'));
 

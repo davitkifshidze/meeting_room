@@ -155,10 +155,13 @@ $("#room__select").on('change', function () {
                                     let current_date = [year, month, day].join('-');
                                     let current_time = now.getHours() + ':' + now.getMinutes();
 
-                                    let current_date_time = current_date + ' ' + current_time;
-                                    let appropriate_date_time = selected_date + ' ' + time;
+                                    let current_date_time = new Date(current_date + ' ' + current_time);
+                                    let appropriate_date_time = new Date(selected_date + ' ' + time);
 
-                                    if (current_date_time >= appropriate_date_time) {
+                                    console.log(current_date_time);
+                                    console.log(appropriate_date_time);
+
+                                    if (current_date_time.getTime() >= appropriate_date_time.getTime()) {
                                         time_html += `<div class="time__box close" data-time="${time}">${time}</div>`;
 
                                     } else if (reserved.includes(time)) {
@@ -194,8 +197,6 @@ $("#room__select").on('change', function () {
                                         selected_times.push(time);
                                         time_boxes.classList.add("time__selected");
                                     }
-
-                                    console.log(selected_times)
 
                                     booking_date.splice(0);
                                     selected_times.forEach((time) => {

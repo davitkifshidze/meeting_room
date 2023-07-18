@@ -87,6 +87,11 @@
 
                     </tbody>
                 </table>
+
+                <div>
+                    {{ $bookings->links('admin.pagination.full') }}
+                </div>
+
             </div>
         </div>
 

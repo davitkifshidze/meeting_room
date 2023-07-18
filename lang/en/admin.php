@@ -23,6 +23,7 @@ return [
     'cancel' => 'Cancel',
     'logout' => 'Log Out',
     'user' => 'User',
+    'all' => 'All',
 
     // Room
     'room' => 'Meeting Room',
