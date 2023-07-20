@@ -16,7 +16,6 @@ class DashboardController extends Controller
         $room = Room::count();
         $booking = Booking::count();
 
-
         return view('admin.dashboard', compact('room', 'booking'));
 
     }

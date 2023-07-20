@@ -90,5 +90,8 @@ class Kernel extends HttpKernel
 
         /**** AdminAuth MIDDLEWARE ****/
         'adminAuth' => \App\Http\Middleware\AdminAuthenticated::class,
+        'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
+        'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
+        'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
     ];
 }

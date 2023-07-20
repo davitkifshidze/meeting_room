@@ -15,8 +15,10 @@ class RolesController extends Controller
      */
     public function index()
     {
+        $user = auth()->guard('admin')->user();
+
         $roles = Role::all();
-        return view('admin.role.index', compact('roles'));
+        return view('admin.role.index', compact('roles', 'user'));
     }
 
     /**

@@ -53,7 +53,7 @@ class BookingController extends Controller
         if(!empty($request->room)){
             $query->where('bookings.room_id', '=', $request->input('room'));
         }
-        $bookings = $query->paginate(5)->withQueryString();
+        $bookings = $query->paginate(10)->withQueryString();
 
 
         return view('admin.booking.index', compact('bookings','user', 'users', 'rooms'));

@@ -30,11 +30,15 @@
                     {{ __('admin.booking') }}
                 </p>
             </div>
-            <div class="new__booking">
-                <a href="{{ route('booking_create') }}">
-                    {{ __('admin.new_booking') }}
-                </a>
-            </div>
+
+            @if($user->hasPermissionTo('Booking Create', 'admin'))
+                <div class="new__booking">
+                    <a href="{{ route('booking_create') }}">
+                        {{ __('admin.new_booking') }}
+                    </a>
+                </div>
+            @endif
+
         </div>
 
 

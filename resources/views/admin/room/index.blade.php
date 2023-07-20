@@ -18,7 +18,7 @@
 
     @if(session('delete'))
         <script>
-            showMessage('success', '{{ __('admin.room_delete_succes') }}' , 1000, 'top-end');
+            showMessage('success', '{{ __('admin.room_delete_succes') }}', 1000, 'top-end');
         </script>
     @endif
 
@@ -30,11 +30,15 @@
                     {{ __('admin.room') }}
                 </p>
             </div>
-            <div class="new__room">
-                <a href="{{ route('room_create') }}">
-                    {{ __('admin.new_room') }}
-                </a>
-            </div>
+
+            @if($user->hasPermissionTo('Room Create', 'admin'))
+                <div class="new__room">
+                    <a href="{{ route('room_create') }}">
+                        {{ __('admin.new_room') }}
+                    </a>
+                </div>
+            @endif
+
         </div>
 
         <div class="room__table__container">
@@ -67,6 +71,7 @@
                             </td>
                             <td class="tbody__td">{{ $room->start_date }}</td>
                             <td class="tbody__td">{{ $room->end_date }}</td>
+
                             <td>
                                 <a href="room/{{ $room->id }}/edit" class="edit__link">
                                     <i class="pen__icon fa-solid fa-pen"></i>
@@ -75,15 +80,18 @@
                             </td>
 
                             <td>
-                                <form action="{{ route('room_delete', $room->id) }}" method="POST" class="delete__form">
+                                <form action="{{ route('room_delete', $room->id) }}" method="POST"
+                                      class="delete__form">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" onclick="confirm_delete(event)" class="delete__link border__none background__none">
+                                    <button type="submit" onclick="confirm_delete(event)"
+                                            class="delete__link border__none background__none">
                                         <i class="delete__icon fa-solid fa-trash-can"></i>
                                         <p>{{ __('admin.delete') }}</p>
                                     </button>
                                 </form>
                             </td>
+
 
                         </tr>
 

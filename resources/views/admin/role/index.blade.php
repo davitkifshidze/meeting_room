@@ -30,11 +30,15 @@
                     {{ __('admin.role') }}
                 </p>
             </div>
-            <div class="new__role">
-                <a href="{{ route('role_create') }}">
-                    {{ __('admin.new_role') }}
-                </a>
-            </div>
+
+            @if($user->hasPermissionTo('Role Create', 'admin'))
+                <div class="new__role">
+                    <a href="{{ route('role_create') }}">
+                        {{ __('admin.new_role') }}
+                    </a>
+                </div>
+            @endif
+
         </div>
 
         <div class="role__table__container">

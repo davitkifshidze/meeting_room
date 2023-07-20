@@ -17,21 +17,14 @@ class RoomController extends Controller
      */
     public function index()
     {
-
-//        $permission = auth()->guard('admin')->user()->roles()->first()->hasPermissionTo('Create Room');
-
         $user = auth()->guard('admin')->user();
-        $permission = $user->hasPermission('Create Room');
-
-
-        dd($permission);
 
         $rooms = Room::select('rooms.id', 'rooms.status', 'rooms.start_date', 'rooms.end_date', 'room_translations.locale', 'room_translations.name')
-            ->join('room_translations','room_translations.room_id','=','rooms.id')
+            ->join('room_translations', 'room_translations.room_id', '=', 'rooms.id')
             ->where('locale', '=', LaravelLocalization::getCurrentLocale())
             ->get();
 
-        return view('admin.room.index', compact('rooms'));
+        return view('admin.room.index', compact('rooms', 'user'));
 
     }
 
@@ -48,7 +41,7 @@ class RoomController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         $room = new Room();
         $room->status = $request->has('status') ? 1 : 0;
         $room->start_date = $request->start_date;
@@ -76,7 +69,7 @@ class RoomController extends Controller
     {
         $room_id = $id;
 
-        foreach(LaravelLocalization::getSupportedLocales() as $locale_code => $locale):
+        foreach (LaravelLocalization::getSupportedLocales() as $locale_code => $locale):
 
             $room[$locale_code] = Room::select('rooms.id', 'rooms.status', 'rooms.start_date', 'rooms.end_date')
                 ->addSelect(
@@ -115,7 +108,7 @@ class RoomController extends Controller
             $translation->save();
         }
 
-        return redirect()->route('room_edit',$id)->with( ['update' => 'success'] );
+        return redirect()->route('room_edit', $id)->with(['update' => 'success']);
 
     }
 
@@ -127,6 +120,6 @@ class RoomController extends Controller
         $room = Room::findOrFail($id);
         $room->delete();
 
-        return redirect()->route('room_list',$id)->with( ['delete' => 'success'] );
+        return redirect()->route('room_list', $id)->with(['delete' => 'success']);
     }
 }
