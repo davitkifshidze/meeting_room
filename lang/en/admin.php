@@ -52,5 +52,17 @@ return [
     'wrong_fields' => 'Invalid credentials. Please try again.',
     'success_login' => 'Welcome back!',
     'success_logout' => 'You are logout successfully!',
+    'not_admin' => 'User Don\'t Have Access ',
+
+    // Role
+    'role' => 'Role',
+    'role_create' => 'Create Role',
+    'role_list' => 'Role List',
+    'role_name' => 'Role Name',
+    'new_role' => 'New Role',
+    'edit_role' => 'Edit Role',
+    'role_edit_success' => 'Role has been Updated successfully',
+    'role_delete_success' => 'Role has been Delete successfully',
+
 
 ];

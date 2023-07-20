@@ -19,8 +19,6 @@ class DashboardController extends Controller
 
         return view('admin.dashboard', compact('room', 'booking'));
 
-
-        return view('admin.dashboard');
     }
 
 }

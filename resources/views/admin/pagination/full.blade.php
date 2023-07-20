@@ -8,7 +8,7 @@
         //    dd($paginator->getOptions());// მიიღეთ paginator პარამეტრები.
         //    dd($paginator->hasPages());// დაადგინეთ არის თუ არა საკმარისი ელემენტი რამდენიმე გვერდად გასაყოფად.
         //    dd($paginator->hasMorePages()); // აქვს თუ არ ამიმდინარე გვერდის შემდეგ კიდევ გვერდი
-//            dd($paginator->items()); // მიიღეთ ელემენტები მიმდინარე გვერდისთვის.
+        //    dd($paginator->items()); // მიიღეთ ელემენტები მიმდინარე გვერდისთვის.
         //    dd($paginator->lastPage()); // მიიღეთ ბოლო ხელმისაწვდომი გვერდის გვერდის ნომერი.
         //    dd($paginator->nextPageUrl()); //მიიღეთ URL შემდეგი გვერდისთვის
         //    dd($paginator->onFirstPage()); //დაადგინეთ არის თუ არა პაგინატორი პირველ გვერდზე.
@@ -110,7 +110,6 @@
                 {{$paginator->total()}}
             </p>
 
-
         </div>
 
         <ul class="pagination">
@@ -160,10 +159,7 @@
 
                 <li class="">
                     <a class="page" href="{{ $paginator->url($paginator->lastPage()) }}">
-
                         <i class="fa-solid fa-circle-chevron-right"></i>
-
-
                     </a>
                 </li>
 
@@ -173,7 +169,5 @@
         </ul>
 
     </div>
-
-
 
 @endif

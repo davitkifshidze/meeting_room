@@ -1,0 +1,137 @@
+.role{
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    width: 100%;
+}
+.page__header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.page__title p{
+    font-size: 24px;
+    font-weight: bold;
+    font-family: var(--font-Noto-Sans-Georgian);
+}
+.new__role{
+    border-radius: 5px;
+    background-color: var(--todua-blue);
+    padding: 15px 30px;
+}
+.new__role a{
+    color: white;
+    text-decoration: none;
+}
+
+.role__table__container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--gray-border);
+    padding: 10px 0;
+    border-radius: 10px;
+    margin-top: 20px;
+    background-color: var(--white);
+}
+
+.role__header {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    padding: 5px 10px;
+}
+
+.table__container{
+    width: 100%;
+    overflow-x: auto;
+}
+
+.role__table {
+    width: 100%;
+    padding: 10px 0;
+    border-collapse: collapse;
+}
+.role__table{
+    width: 100%;
+    padding: 10px 0;
+    border-collapse: collapse;
+}
+.table__head{
+    background-color: var(--gray-bg);
+}
+
+.table__head th {
+    color: var(--gray-text);
+    padding: 10px 0;
+    text-align: start;
+    font-weight: normal;
+    min-width: 150px;
+}
+.table__head th:first-child {
+    padding: 10px;
+    width: 50px;
+    text-align: center;
+}
+
+.table__body tr td {
+    border-bottom: 1px solid var(--gray-border);
+}
+
+.table__body td:first-child {
+    padding: 10px;
+    width: 50px;
+    text-align: center;
+}
+
+.tbody__td {
+    font-size: 14px;
+    color: var(--gray-text);
+}
+
+.edit__link {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.edit__link p {
+    font-size: 14px;
+    color: var(--edit);
+    margin: 0 5px;
+    width: fit-content;
+}
+
+.pen__icon {
+    color: var(--edit);
+    margin: 0 5px;
+}
+
+.edit__link:hover .pen__icon, .edit__link:hover p {
+    color: var(--edit-hover);
+}
+
+.delete__link {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.delete__link p {
+    font-size: 14px;
+    color: var(--delete);
+    margin: 0 5px;
+    width: fit-content;
+}
+
+.delete__icon {
+    color: var(--delete);
+    margin: 0 5px;
+}
+
+.delete__link:hover .delete__icon, .delete__link:hover p {
+    color: var(--delete-hover);
+}

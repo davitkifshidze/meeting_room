@@ -18,13 +18,17 @@ class BookingController extends Controller
      */
     public function index()
     {
-        $bookings = Booking::select('bookings.id','bookings.room_id','bookings.user_id', 'room_translations.name as room_name', 'users.name as username', 'bookings.start_date', 'bookings.end_date')
+
+        $user = auth()->guard('admin')->user();
+
+        $bookings = Booking::select('bookings.id','bookings.room_id','bookings.user_id', 'room_translations.name as room_name', 'users.username', 'bookings.start_date', 'bookings.end_date')
             ->join('room_translations','room_translations.room_id','=','bookings.room_id')
             ->join('users','users.id','=','bookings.user_id')
             ->where('room_translations.locale', '=', LaravelLocalization::getCurrentLocale())
+            ->where('bookings.user_id', '=', $user->id)
             ->Paginate(15);
 
-        return view('admin.booking.index', compact('bookings'));
+        return view('admin.booking.index', compact('bookings','user'));
 
     }
 
@@ -33,6 +37,7 @@ class BookingController extends Controller
      */
     public function create()
     {
+        $user = auth()->guard('admin')->user();
 
         $rooms = Room::select('rooms.id', 'rooms.status', 'rooms.start_date', 'rooms.end_date', 'room_translations.locale', 'room_translations.name')
             ->join('room_translations','room_translations.room_id','=','rooms.id')
@@ -40,7 +45,7 @@ class BookingController extends Controller
             ->where('rooms.status', '=', 1)
             ->get();
 
-        return view('admin.booking.create', compact('rooms'));
+        return view('admin.booking.create', compact('rooms','user'));
 
     }
 
@@ -65,7 +70,8 @@ class BookingController extends Controller
     public function room_booking_info($room_id, $selected_date)
     {
 
-        $booking = Booking::select('bookings.id', 'bookings.room_id', 'bookings.start_date', 'bookings.end_date')
+        $booking = Booking::select('bookings.id', 'bookings.room_id', 'bookings.start_date', 'bookings.end_date', 'users.id as user_id', 'users.color')
+            ->join('users','users.id','=','bookings.user_id')
             ->where('bookings.room_id', '=', $room_id)
             ->where('bookings.start_date', 'LIKE', '%' . $selected_date . '%')
             ->get();
@@ -93,6 +99,7 @@ class BookingController extends Controller
                 $carbon->addMinutes(15);
                 $end_date = $carbon->format('Y-m-d H:i');
 
+
                 $booking = Booking::create([
                     'room_id' => $request->room_id,
                     'user_id' => $request->user_id,
@@ -104,8 +111,9 @@ class BookingController extends Controller
 
             return response()->json(['success' => 'booking_succes']);
 
-
         } catch (\Exception $e) {
+            
+            dd($e);
 
             return response()->json(['warning' => 'not booking']);
 
@@ -118,6 +126,20 @@ class BookingController extends Controller
      */
     public function edit(string $id)
     {
+
+        $booking = Booking::select('bookings.id', 'bookings.room_id', 'bookings.user_id', 'bookings.start_date', 'bookings.end_date')
+            ->where('bookings.id', '=', $id)
+            ->first();
+
+        $rooms = Room::select('rooms.id', 'rooms.status', 'rooms.start_date', 'rooms.end_date', 'room_translations.locale', 'room_translations.name')
+            ->join('room_translations','room_translations.room_id','=','rooms.id')
+            ->where('room_translations.locale', '=', LaravelLocalization::getCurrentLocale())
+            ->where('rooms.status', '=', 1)
+            ->get();
+
+//        dd($booking);
+
+        return view('admin.booking.edit', compact('rooms', 'booking'));
 
     }
 

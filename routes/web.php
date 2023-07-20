@@ -6,7 +6,9 @@ use App\Http\Controllers\Admin\BookingController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\NewsController;
+use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\Admin\RoomController;
+use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -36,6 +38,14 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function()
             Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
             Route::get('/logout', [AdminAuthController::class, 'logout'])->name('admin_logout');
 
+            Route::get('/role', [RolesController::class, 'index'])->name('role_list');
+            Route::get('/role/create', [RolesController::class, 'create'])->name('role_create');
+            Route::post('/role/store', [RolesController::class, 'store'])->name('role_store');
+            Route::get('/role/{id}/edit', [RolesController::class, 'edit'])->name('role_edit');
+            Route::put('/role/{id}', [RolesController::class, 'update'])->name('role_update');
+            Route::delete('/role/{id}', [RolesController::class, 'destroy'])->name('role_delete');
+
+
             Route::get('/room', [RoomController::class, 'index'])->name('room_list');
             Route::get('/room/create', [RoomController::class, 'create'])->name('room_create');
             Route::post('/room/store', [RoomController::class, 'store'])->name('room_store');
@@ -48,6 +58,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function()
             Route::get('/booking/room_info/{id}', [BookingController::class, 'room_info'])->name('room_info');
             Route::get('/booking/room_booking_info/{id}/{selected_date}', [BookingController::class, 'room_booking_info'])->name('room_booking_info');
             Route::post('/booking/create', [BookingController::class, 'store'])->name('booking_store');
+            Route::get('/booking/{id}/edit', [BookingController::class, 'edit'])->name('booking_edit');
             Route::put('/booking/{id}', [BookingController::class, 'update'])->name('booking_update');
             Route::delete('/booking/{id}', [BookingController::class, 'destroy'])->name('booking_delete');
 

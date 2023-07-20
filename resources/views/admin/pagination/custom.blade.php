@@ -2,10 +2,6 @@
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-end">
 
-{{--            <li class="{{ ($paginator->currentPage() == 1) ? ' disabled' : '' }}">--}}
-{{--                <a href="{{ $paginator->url(1) }}">First</a>--}}
-{{--            </li>--}}
-
             @if ($paginator->onFirstPage())
                 <li class="page-item disabled">
                     <a class="page-link" href="#" tabindex="-1">Previous</a>
@@ -42,11 +38,6 @@
                     <a class="page-link" href="#">Next</a>
                 </li>
             @endif
-
-
-{{--                <li class="{{ ($paginator->currentPage() == $paginator->lastPage()) ? ' disabled' : '' }}">--}}
-{{--                    <a href="{{ $paginator->url($paginator->lastPage()) }}">Last</a>--}}
-{{--                </li>--}}
 
         </ul>
 @endif

@@ -93,9 +93,7 @@ $("#room__select").on('change', function () {
                     timepicker: false,
                     disabledDates: [
                         // დასვენების დღეების დამატება
-                        '2023/07/19',
-                        '2023/07/21',
-                        '2023/07/25',
+                        // '2023/07/19',
                     ],
 
                     onSelectDate: function (date) {
@@ -157,9 +155,6 @@ $("#room__select").on('change', function () {
 
                                     let current_date_time = new Date(current_date + ' ' + current_time);
                                     let appropriate_date_time = new Date(selected_date + ' ' + time);
-
-                                    console.log(current_date_time);
-                                    console.log(appropriate_date_time);
 
                                     if (current_date_time.getTime() >= appropriate_date_time.getTime()) {
                                         time_html += `<div class="time__box close" data-time="${time}">${time}</div>`;

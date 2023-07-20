@@ -43,7 +43,7 @@
                                 <span><i class="fa-solid fa-snowflake"></i></span>
                             </label>
                             <select name="user" id="user__select" multiple class="no__arrow">
-                                <option value="<?= '3' ?>"><?= '4' ?></option>
+                                <option value="{{ $user->id }}">{{ $user->username }}</option>
                             </select>
                         </div>
 

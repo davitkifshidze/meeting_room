@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
+use App\Models\User;
 
 class AdminAuthController extends Controller
 {
@@ -32,12 +33,18 @@ class AdminAuthController extends Controller
     {
         $credentials = $request->only('email', 'password');
 
-        if (auth()->guard('admin')->attempt($credentials))
-        {
-            return redirect()->route('dashboard')->with('login_success',__('admin.success_login'));
+        $user = User::where('email', $credentials['email'])->first();
+
+        if ($user && $user->admin == 1) {
+            if (auth()->guard('admin')->attempt($credentials)) {
+                return redirect()->route('dashboard')->with('login_success', __('admin.success_login'));
+            } else {
+                return back()->withInput()->with('wrong_fields', __('admin.wrong_fields'));
+            }
         } else {
-            return back()->withInput()->with('wrong_fields', __('admin.wrong_fields'));
+            return back()->withInput()->with('wrong_fields', __('admin.not_admin'));
         }
+
     }
 
     public function logout()
