@@ -10,6 +10,8 @@
     <div class="sidebar__main__content">
         <ul>
 
+
+
             <li class="sidebar__menu__item sidebar__menu__link__active">
                 <a href="{{ route('dashboard') }}" class="sidebar__menu__link">
                     <i class="sidebar__menu__link__icon fa-solid fa-cubes-stacked"></i>

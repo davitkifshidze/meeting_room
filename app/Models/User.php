@@ -50,4 +50,15 @@ class User extends Authenticatable
         return $this->hasMany(Booking::class);
     }
 
+    public function getRoleAttribute()
+    {
+        $role = $this->roles->first();
+        return $role ? $role : null;
+    }
+
+    public function hasPermission($permission)
+    {
+        return $this->roles->flatMap->permissions->pluck('name')->contains($permission);
+    }
+
 }

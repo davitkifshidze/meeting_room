@@ -25,6 +25,8 @@ return [
     'user' => 'User',
     'email' => 'E-mail',
     'all' => 'All',
+    'filter' => 'Filter',
+    'clear' => 'Clear',
 
     // Room
     'room' => 'Meeting Room',
@@ -45,6 +47,7 @@ return [
     'new_booking' => 'New Booking',
     'room_name' => 'Room Name',
     'username' => 'Username',
+    'booking_delete_success' => 'Booking Delete successfully',
 
 
     // Login

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\Room;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -16,19 +17,46 @@ class BookingController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+
+        $users = User::all();
+        $rooms = Room::select('rooms.id', 'rooms.status', 'rooms.start_date', 'rooms.end_date', 'room_translations.locale', 'room_translations.name')
+            ->join('room_translations','room_translations.room_id','=','rooms.id')
+            ->where('room_translations.locale', '=', LaravelLocalization::getCurrentLocale())
+            ->where('rooms.status', '=', 1)
+            ->get();
 
         $user = auth()->guard('admin')->user();
 
-        $bookings = Booking::select('bookings.id','bookings.room_id','bookings.user_id', 'room_translations.name as room_name', 'users.username', 'bookings.start_date', 'bookings.end_date')
-            ->join('room_translations','room_translations.room_id','=','bookings.room_id')
-            ->join('users','users.id','=','bookings.user_id')
-            ->where('room_translations.locale', '=', LaravelLocalization::getCurrentLocale())
-            ->where('bookings.user_id', '=', $user->id)
-            ->Paginate(15);
+        if ($user->hasRole('Super Admin')) {
 
-        return view('admin.booking.index', compact('bookings','user'));
+            $query = Booking::select('bookings.id', 'bookings.room_id', 'bookings.user_id', 'room_translations.name as room_name', 'users.username', 'bookings.start_date', 'bookings.end_date')
+                ->join('room_translations', 'room_translations.room_id', '=', 'bookings.room_id')
+                ->join('users', 'users.id', '=', 'bookings.user_id')
+                ->where('room_translations.locale', '=', LaravelLocalization::getCurrentLocale());
+
+            if(!empty($request->user)){
+                $query->where('bookings.user_id', '=', $request->input('user'));
+            }
+
+        } else {
+
+            $query = Booking::select('bookings.id', 'bookings.room_id', 'bookings.user_id', 'room_translations.name as room_name', 'users.username', 'bookings.start_date', 'bookings.end_date')
+                ->join('room_translations', 'room_translations.room_id', '=', 'bookings.room_id')
+                ->join('users', 'users.id', '=', 'bookings.user_id')
+                ->where('room_translations.locale', '=', LaravelLocalization::getCurrentLocale())
+                ->where('bookings.user_id', '=', $user->id);
+
+        }
+
+        if(!empty($request->room)){
+            $query->where('bookings.room_id', '=', $request->input('room'));
+        }
+        $bookings = $query->paginate(5)->withQueryString();
+
+
+        return view('admin.booking.index', compact('bookings','user', 'users', 'rooms'));
 
     }
 
@@ -75,7 +103,8 @@ class BookingController extends Controller
             ->where('bookings.room_id', '=', $room_id)
             ->where('bookings.start_date', 'LIKE', '%' . $selected_date . '%')
             ->get();
-
+        
+        
         if (!$booking->isEmpty()) {
             return response()->json(['booking' => $booking]);
         } else {
@@ -98,7 +127,6 @@ class BookingController extends Controller
                 $carbon = Carbon::createFromFormat('Y-m-d H:i', $item);
                 $carbon->addMinutes(15);
                 $end_date = $carbon->format('Y-m-d H:i');
-
 
                 $booking = Booking::create([
                     'room_id' => $request->room_id,
@@ -127,6 +155,8 @@ class BookingController extends Controller
     public function edit(string $id)
     {
 
+        $user = auth()->guard('admin')->user();
+
         $booking = Booking::select('bookings.id', 'bookings.room_id', 'bookings.user_id', 'bookings.start_date', 'bookings.end_date')
             ->where('bookings.id', '=', $id)
             ->first();
@@ -137,9 +167,10 @@ class BookingController extends Controller
             ->where('rooms.status', '=', 1)
             ->get();
 
+        $selected_room = Room::findOrFail($booking->room_id);
 //        dd($booking);
 
-        return view('admin.booking.edit', compact('rooms', 'booking'));
+        return view('admin.booking.edit', compact('rooms', 'booking', 'user','selected_room'));
 
     }
 
@@ -156,6 +187,9 @@ class BookingController extends Controller
      */
     public function destroy(string $id)
     {
+        $booking = Booking::findOrFail($id);
+        $booking->delete();
 
+        return redirect()->route('booking_list',$id)->with( ['delete' => 'success'] );
     }
 }

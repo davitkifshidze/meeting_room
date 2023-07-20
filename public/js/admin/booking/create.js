@@ -1,5 +1,5 @@
 /**
- * Select Multiple Create Author
+ * Select Multiple Selector
  * Set Dropdown with SearchBox via dropdownAdapter option
  */
 const Utils = $.fn.select2.amd.require('select2/utils');

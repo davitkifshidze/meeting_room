@@ -11,11 +11,20 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 class RoomController extends Controller
 {
 
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+
+//        $permission = auth()->guard('admin')->user()->roles()->first()->hasPermissionTo('Create Room');
+
+        $user = auth()->guard('admin')->user();
+        $permission = $user->hasPermission('Create Room');
+
+
+        dd($permission);
 
         $rooms = Room::select('rooms.id', 'rooms.status', 'rooms.start_date', 'rooms.end_date', 'room_translations.locale', 'room_translations.name')
             ->join('room_translations','room_translations.room_id','=','rooms.id')

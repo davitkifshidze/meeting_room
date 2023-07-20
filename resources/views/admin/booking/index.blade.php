@@ -18,7 +18,7 @@
 
     @if(session('delete'))
         <script>
-            showMessage('success', '{{ __('admin.booking_delete_succes') }}' , 1000, 'top-end');
+            showMessage('success', '{{ __('admin.booking_delete_success') }}' , 1000, 'top-end');
         </script>
     @endif
 
@@ -37,6 +37,53 @@
             </div>
         </div>
 
+
+
+        <div class="filter__container">
+
+            <form action="{{ route('booking_list') }}" class="form__container" method="GET" enctype="multipart/form-data">
+
+                <div class="form__group row w-100">
+
+                    @if ($user->hasRole('Super Admin'))
+                        <div class="input__group third">
+                            <select name="user" id="user__select" multiple>
+                                <option value=""></option>
+                                @foreach($users as $key => $user)
+                                    <option value="<?= $user->id ?>" @if(Request::get('user') == $user->id) selected @endif ><?= $user->username ?></option>
+                                @endforeach
+                            </select>
+                        </div>
+                    @endif
+
+                    @php
+                        $user = auth()->guard('admin')->user();
+                        $isAdmin = $user->hasRole('Super Admin');
+                    @endphp
+
+                    <div class="input__group  @if ($isAdmin) third @else half @endif ">
+                        <select name="room" id="room__select" multiple>
+                            <option value=""></option>
+
+                            @foreach($rooms as $key => $room)
+                                <option value="<?= $room->id ?>" @if(Request::get('room') == $room->id) selected @endif ><?= $room->name ?></option>
+                            @endforeach
+
+                        </select>
+                    </div>
+
+                    <div class="btn__container @if ($isAdmin) third @else half @endif ">
+                        <input class="filter__btn" type="submit" value="{{ __('admin.filter') }}">
+                        <a href="{{ route('booking_list') }}" class="clear__btn">{{ __('admin.clear') }}</a>
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+
         <div class="booking__table__container">
 
             <div class="table__container">
@@ -48,7 +95,6 @@
                         <th>{{ __('admin.username') }}</th>
                         <th>{{ __('admin.start_date') }}</th>
                         <th>{{ __('admin.end_date') }}</th>
-                        <th></th>
                         <th></th>
                     </tr>
                     </thead>
@@ -63,12 +109,6 @@
                             <td class="tbody__td">{{ $booking->username }}</td>
                             <td class="tbody__td">{{ $booking->start_date }}</td>
                             <td class="tbody__td">{{ $booking->end_date }}</td>
-                            <td>
-                                <a href="booking/{{ $booking->id }}/edit" class="edit__link">
-                                    <i class="pen__icon fa-solid fa-pen"></i>
-                                    <p>{{ __('admin.edit') }}</p>
-                                </a>
-                            </td>
 
                             <td>
                                 <form action="{{ route('booking_delete', $booking->id) }}" method="POST" class="delete__form">

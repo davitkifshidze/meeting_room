@@ -19,10 +19,9 @@ class UserFactory extends Factory
     {
         return [
             'name' => fake()->name(),
-            'username' => 'lasha',
+            'username' => 'dato',
 //            'email' => fake()->unique()->safeEmail(),
-            'email' => 'lasha@todua.com',
-            'color' => '#6d7ccf',
+            'email' => 'dato@todua.com',
             'admin' => '0',
             'email_verified_at' => now(),
             'password' => bcrypt('admin'),
