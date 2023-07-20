@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -94,4 +95,45 @@ class RolesController extends Controller
         return redirect()->route('role_list',$id)->with( ['delete' => 'success'] );
 
     }
+
+    /**
+     * User List
+     */
+    public function user_list(){
+        
+        $users = User::all();
+
+        return view('admin.role.user', compact('users'));
+
+    }
+
+    /**
+     * Give Role Page
+     */
+    public function user_role(string $id)
+    {
+        $user = User::findOrFail($id);
+        $roles = Role::all();
+
+        return view('admin.role.user_role', compact('user','roles'));
+
+    }
+
+    /**
+     * Add User Role
+     */
+    public function user_role_add(Request $request, string $id)
+    {
+
+        $user = User::findOrFail($id);
+        $role = Role::findOrFail($request->role);
+
+        $user->roles()->detach();
+        $user->assignRole($role);
+
+        return redirect()->route('user_role',$id)->with( ['update' => 'success'] );
+
+
+    }
+    
 }

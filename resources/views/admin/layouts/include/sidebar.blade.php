@@ -83,6 +83,12 @@
                             <span class="sidebar__submenu__title">{{ __('admin.role_list') }}</span>
                         </a>
                     </li>
+                    <li class="sidebar__submenu__item">
+                        <a href="{{ route('user_list') }}" class="sidebar__submenu__link ">
+                            <i class="sidebar__submenu__link__icon fa-solid fa-bars-staggered"></i>
+                            <span class="sidebar__submenu__title">{{ __('admin.user_list') }}</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
 

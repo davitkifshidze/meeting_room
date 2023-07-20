@@ -19,11 +19,11 @@ class UserFactory extends Factory
     {
         return [
             'name' => fake()->name(),
-            'username' => 'todua',
+            'username' => 'lasha',
 //            'email' => fake()->unique()->safeEmail(),
-            'email' => 'todua@todua.com',
+            'email' => 'lasha@todua.com',
             'color' => '#6d7ccf',
-            'admin' => '1',
+            'admin' => '0',
             'email_verified_at' => now(),
             'password' => bcrypt('admin'),
             'remember_token' => Str::random(10),

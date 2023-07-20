@@ -23,6 +23,7 @@ return [
     'cancel' => 'Cancel',
     'logout' => 'Log Out',
     'user' => 'User',
+    'email' => 'E-mail',
     'all' => 'All',
 
     // Room
@@ -63,6 +64,9 @@ return [
     'edit_role' => 'Edit Role',
     'role_edit_success' => 'Role has been Updated successfully',
     'role_delete_success' => 'Role has been Delete successfully',
+    'user_list' => 'Users',
+    'give_role' => 'Give Role',
+    'add_user_role' => 'Add Role User',
 
 
 ];

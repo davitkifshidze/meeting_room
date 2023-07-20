@@ -44,7 +44,9 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function()
             Route::get('/role/{id}/edit', [RolesController::class, 'edit'])->name('role_edit');
             Route::put('/role/{id}', [RolesController::class, 'update'])->name('role_update');
             Route::delete('/role/{id}', [RolesController::class, 'destroy'])->name('role_delete');
-
+            Route::get('/role/user_list', [RolesController::class, 'user_list'])->name('user_list');
+            Route::get('/role/{id}/user_role', [RolesController::class, 'user_role'])->name('user_role');
+            Route::put('/role/{id}/user_role_add', [RolesController::class, 'user_role_add'])->name('user_role_add');
 
             Route::get('/room', [RoomController::class, 'index'])->name('room_list');
             Route::get('/room/create', [RoomController::class, 'create'])->name('room_create');
