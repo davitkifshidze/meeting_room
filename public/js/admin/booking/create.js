@@ -225,7 +225,7 @@ $("#room__select").on('change', function () {
                                     if (booking_date.length > 0) {
 
                                         $.ajax({
-                                            url: 'create',
+                                            url: 'store',
                                             method: 'POST',
                                             headers: {
                                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

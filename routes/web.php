@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\Admin\RoomController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Tablet\TabletController;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -59,7 +60,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function()
             Route::get('/booking/create', [BookingController::class, 'create'])->name('booking_create');
             Route::get('/booking/room_info/{id}', [BookingController::class, 'room_info'])->name('room_info');
             Route::get('/booking/room_booking_info/{id}/{selected_date}', [BookingController::class, 'room_booking_info'])->name('room_booking_info');
-            Route::post('/booking/create', [BookingController::class, 'store'])->name('booking_store');
+            Route::post('/booking/store', [BookingController::class, 'store'])->name('booking_store');
             Route::get('/booking/{id}/edit', [BookingController::class, 'edit'])->name('booking_edit');
             Route::put('/booking/{id}', [BookingController::class, 'update'])->name('booking_update');
             Route::delete('/booking/{id}', [BookingController::class, 'destroy'])->name('booking_delete');
@@ -67,6 +68,24 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function()
         });
 
     });
+
+
+    Route::group(['prefix' => 'tablet', 'namespace' => 'Tablet'], function () {
+
+        Route::group(['prefix' => '{room_id}'], function () {
+            Route::get('/', [TabletController::class, 'index'])->name('tablet_index');
+
+            Route::get('room_info', [TabletController::class, 'room_info'])->name('tablet_room_info');
+            Route::get('room_booking_info/{selected_date}', [TabletController::class, 'room_booking_info'])->name('tablet_room_booking_info');
+            Route::post('store', [TabletController::class, 'store'])->name('tablet_booking');
+
+        });
+
+    });
+
+
+
+
 
 });
 
