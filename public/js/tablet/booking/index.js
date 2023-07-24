@@ -34,9 +34,7 @@
 // });
 
 
-let user_id = 3;
 let room_id = $('#curent__room').val();
-console.log(room_id)
 
 $.ajax({
     url: room_id + '/room_info',
@@ -44,7 +42,6 @@ $.ajax({
     dataType: 'json',
     success: function (response) {
 
-        console.log(response)
         if (response.room) {
 
             $("#booking_room_calendar").datetimepicker("destroy");
@@ -132,6 +129,9 @@ $.ajax({
                                 });
                             }
 
+
+
+
                             Object.values(times).forEach(time => {
 
                                 let now = new Date();
@@ -146,13 +146,22 @@ $.ajax({
                                 let current_date_time = new Date(current_date + ' ' + current_time);
                                 let appropriate_date_time = new Date(selected_date + ' ' + time);
 
+
+                                let formatted_reserved = reserved.map((time) => {
+                                    const [hour, minute] = time.split(':');
+                                    return `${hour.padStart(2, '0')}:${minute}`;
+                                });
+
                                 if (current_date_time.getTime() >= appropriate_date_time.getTime()) {
+
                                     time_html += `<div class="time__box close" data-time="${time}">${time}</div>`;
 
-                                } else if (reserved.includes(time)) {
+                                } else if (formatted_reserved.includes(time)) {
+
                                     time_html += `<div class="time__box reserved" data-time="${time}">${time}</div>`;
 
                                 } else {
+
                                     time_html += `<div class="time__box" data-time="${time}">${time}</div>`;
 
                                 }
@@ -166,7 +175,7 @@ $.ajax({
                              * Time Box Multi Selected
                              */
                             const time_boxes = document.querySelectorAll(".time__box");
-                            const selected_times = [];
+                            let selected_times = [];
                             let booking_date = [];
 
                             function timeBoxClick(event) {
@@ -187,6 +196,7 @@ $.ajax({
                                 selected_times.forEach((time) => {
                                     booking_date.push(selected_date + ' ' + time);
                                 });
+
 
                             }
 
@@ -217,36 +227,128 @@ $.ajax({
 
                             create__booking.on('click', function () {
 
-                                if (booking_date.length > 0) {
+                                const hidden__modal = document.getElementById('hidden__modal');
+                                hidden__modal.style.display = 'block';
+
+                                const close_modal = document.getElementById('close__modal');
+
+                                close_modal.addEventListener('click', function(event) {
+                                    hidden__modal.style.display = 'none';
+                                });
+
+                                $('#user__form').unbind('submit').submit(function (event){
+
+                                    event.preventDefault();
 
                                     $.ajax({
-                                        url: room_id + '/store',
+                                        url: room_id + '/check_user',
                                         method: 'POST',
+                                        dataType: 'json',
+                                        data: $(this).serialize(),
                                         headers: {
                                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                                         },
-                                        data: {'user_id': user_id, 'room_id': room_id, 'dates': booking_date},
-                                        dataType: 'json',
                                         success: function (response) {
+                                            if (response.success) {
 
-                                            const selected_time = document.querySelectorAll('div.time__selected');
-                                            selected_time.forEach(div => {
-                                                div.classList.remove('time__selected');
-                                                div.classList.add('reserved');
-                                            });
+                                                const user_id = response.user.id;
 
-                                            showMessage('success', 'ოთახი წარმატებით დაიჯავშნა', 1500, 'top-end');
+                                                const Toast = Swal.mixin({
+                                                    toast: true,
+                                                    position: 'top-end',
+                                                    showConfirmButton: false,
+                                                    timer: 1500,
+                                                    timerProgressBar: true,
+                                                    didOpen: (toast) => {
+                                                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                                                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                                    }
+                                                })
+                                                Toast.fire({
+                                                    icon: 'success',
+                                                    title: 'მომხმარებელი იდენტიფიცირებულია'
+                                                }).then(function() {
 
+                                                    console.log('12')
+                                                    hidden__modal.style.display = 'none';
+
+                                                });
+
+
+                                                setTimeout(() => {
+                                                    if (booking_date.length > 0) {
+
+
+                                                        $.ajax({
+                                                            url: room_id + '/store',
+                                                            method: 'POST',
+                                                            headers: {
+                                                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                                            },
+                                                            data: {
+                                                                'user_id': user_id,
+                                                                'room_id': room_id,
+                                                                'dates': booking_date
+                                                            },
+                                                            dataType: 'json',
+                                                            success: function (response) {
+
+
+                                                                selected_times = [];
+
+                                                                const selected_time = document.querySelectorAll('div.time__selected');
+                                                                selected_time.forEach(div => {
+                                                                    div.classList.remove('time__selected');
+                                                                    div.classList.add('reserved');
+                                                                });
+
+                                                                showMessage('success', 'ოთახი წარმატებით დაიჯავშნა', 1500, 'top-end');
+
+                                                            },
+                                                            error: function (error) {
+                                                                showMessage('error', 'დაჯავშნისას წარმოიქმნა პრობლემა', 1500, 'top-end');
+                                                            }
+                                                        });
+
+                                                    } else {
+                                                        showMessage('warning', 'გთხოვთ აირჩიოთ ჯავშნის დრო', 1500, 'top-end');
+                                                    }
+                                                },  1500);
+
+
+
+
+                                            } else {
+
+                                                const Toast = Swal.mixin({
+                                                    toast: true,
+                                                    position: 'top-end',
+                                                    showConfirmButton: false,
+                                                    timer: 1500,
+                                                    timerProgressBar: true,
+                                                    didOpen: (toast) => {
+                                                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                                                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                                    }
+                                                })
+                                                Toast.fire({
+                                                    icon: 'warning',
+                                                    title: 'მსგავსი მომხმარებელი არ არსებობს'
+                                                })
+
+                                            }
 
                                         },
-                                        error: function (error) {
-                                            showMessage('error', 'დაჯავშნისას წარმოიქმნა პრობლემა', 1500, 'top-end');
-                                        }
-                                    });
+                                        error: function (response) {
 
-                                } else {
-                                    showMessage('warning', 'გთხოვთ აირჩიოთ ჯავშნის დრო', 1500, 'top-end');
-                                }
+                                            showMessage('warning', 'წარმოიშვა შეცდომა', 1500, 'top-end');
+
+                                        }
+
+                                    });
+                                });
+
+
 
 
                             });

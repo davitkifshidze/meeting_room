@@ -156,13 +156,22 @@ $("#room__select").on('change', function () {
                                     let current_date_time = new Date(current_date + ' ' + current_time);
                                     let appropriate_date_time = new Date(selected_date + ' ' + time);
 
+
+                                    let formatted_reserved = reserved.map((time) => {
+                                        const [hour, minute] = time.split(':');
+                                        return `${hour.padStart(2, '0')}:${minute}`;
+                                    });
+
+
                                     if (current_date_time.getTime() >= appropriate_date_time.getTime()) {
                                         time_html += `<div class="time__box close" data-time="${time}">${time}</div>`;
 
-                                    } else if (reserved.includes(time)) {
+                                    } else if (formatted_reserved.includes(time)) {
+
                                         time_html += `<div class="time__box reserved" data-time="${time}">${time}</div>`;
 
                                     } else {
+
                                         time_html += `<div class="time__box" data-time="${time}">${time}</div>`;
 
                                     }
@@ -176,7 +185,7 @@ $("#room__select").on('change', function () {
                                  * Time Box Multi Selected
                                  */
                                 const time_boxes = document.querySelectorAll(".time__box");
-                                const selected_times = [];
+                                let selected_times = [];
                                 let booking_date = [];
 
                                 function timeBoxClick(event) {
@@ -233,6 +242,9 @@ $("#room__select").on('change', function () {
                                             data: {'user_id': user_id, 'room_id': room_id, 'dates': booking_date},
                                             dataType: 'json',
                                             success: function (response) {
+
+
+                                                selected_times = [];
 
                                                 const selected_time = document.querySelectorAll('div.time__selected');
                                                 selected_time.forEach(div => {

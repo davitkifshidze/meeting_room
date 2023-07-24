@@ -297,6 +297,7 @@
 span{
     text-decoration: none !important;
 }
+
 /* Hour */
 .time__container{
     display: flex;
@@ -337,6 +338,60 @@ span{
     background-color: #e27d87;
     color: white;
     cursor: not-allowed;
+}
+
+
+/* User Modal */
+.hidden__modal{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 2;
+    background-color: var(--dash-blue-box);
+    padding: 50px;
+    width: 600px;
+}
+.modal__input__group{
+    display: flex;
+    flex-direction: column;
+    margin: 20px 0;
+}
+.modal__input__group label{
+    font-size: 16px;
+    color: var(--black);
+    margin: 5px 0 15px 0;
+}
+.modal__input__group input{
+    border:1px solid var(--gray-main);
+    border-radius: 5px;
+    padding: 10px;
+}
+.check__user__btn{
+    background-color: var(--todua-blue-dark);
+    color: var(--white);
+    border:none;
+    padding: 15px 40px;
+    border-radius: 10px;
+}
+.btn__container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.close__container{
+    width: 100%;
+    position: relative;
+}
+.close__modal {
+    position: absolute;
+    right: 0px;
+    top: -15px;
+    cursor: pointer;
+}
+.close__modal svg{
+    font-size: 24px;
+    color: var(--red);
 }
 
 /* Responsive */

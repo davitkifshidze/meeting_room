@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Tablet;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\Room;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -65,6 +66,7 @@ class TabletController extends Controller
     public function store(Request $request)
     {
 
+
         foreach($request->dates as $key => $item):
 
             $carbon = Carbon::createFromFormat('Y-m-d H:i', $item);
@@ -83,4 +85,35 @@ class TabletController extends Controller
         return response()->json(['success' => 'booking_succes']);
 
     }
+
+
+
+
+    /**
+     * Check User
+     */
+    public function check_user(Request $request)
+    {
+
+        $username = $request->input('username');
+        $password = $request->input('password');
+
+        $user = User::where('username', $username)->first();
+
+        if ($user && password_verify($password, $user->password)) {
+            return response()->json([
+                'success' => true,
+                'message' => 'მომხმარებელი ვალიდურია',
+                'user' => $user,
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'მსგავსი მომხმარებელი არარსებობს',
+            ]);
+        }
+
+    }
+
+
 }

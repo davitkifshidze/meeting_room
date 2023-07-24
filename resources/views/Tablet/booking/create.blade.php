@@ -36,28 +36,18 @@
 
                 <input type="hidden" name="room_id" id="curent__room" value="{{ $room_id }}">
 
-                <div class="full_container ">
+                <div class="full_container">
 
                     <div class="form__group row " id="calendar__container">
 
                         <div class="input__group full" id="calendar__box">
-{{--                            <label class="label">--}}
-{{--                                <p>{{ __('admin.booking_calendar') }}</p>--}}
-{{--                                <span><i class="fa-solid fa-snowflake"></i></span>--}}
-{{--                            </label>--}}
-
                             <div class="booking__calendar__container">
                                 <input type="text" id="booking_room_calendar" class="booking_room_calendar skip skipped"/>
                             </div>
                         </div>
 
                         <div class="input__group h-100 hide" id="time__container">
-
-{{--                            <label class="label">--}}
-{{--                                <span><i class="fa-solid fa-snowflake"></i></span>--}}
-{{--                            </label>--}}
                             <div class="time__container w-100" id="time__list">
-
                             </div>
                         </div>
 
@@ -80,6 +70,35 @@
 
             </form>
         </div>
+
+
+        <div id="hidden__modal" class="hidden__modal" style="display: none;">
+
+            <div class="close__container">
+                <span id="close__modal" class="close__modal">
+                    <i class="fa-solid fa-xmark"></i>
+                </span>
+            </div>
+
+            <form id="user__form">
+                @csrf
+                <div class="modal__input__group">
+                    <label for="number">მომხმარებელი</label>
+                    <input type="text" id="username" name="username">
+                </div>
+
+                <div class="modal__input__group">
+                    <label for="password">პაროლი</label>
+                    <input type="password" id="password" name="password">
+                </div>
+
+
+                <div class="btn__container">
+                    <input class="check__user__btn" type="submit" value="ავტორიზაცია" >
+                </div>
+            </form>
+        </div>
+
 
     </div>
 

@@ -73,11 +73,12 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function()
     Route::group(['prefix' => 'tablet', 'namespace' => 'Tablet'], function () {
 
         Route::group(['prefix' => '{room_id}'], function () {
-            Route::get('/', [TabletController::class, 'index'])->name('tablet_index');
 
+            Route::get('/', [TabletController::class, 'index'])->name('tablet_index');
             Route::get('room_info', [TabletController::class, 'room_info'])->name('tablet_room_info');
             Route::get('room_booking_info/{selected_date}', [TabletController::class, 'room_booking_info'])->name('tablet_room_booking_info');
             Route::post('store', [TabletController::class, 'store'])->name('tablet_booking');
+            Route::post('check_user', [TabletController::class, 'check_user'])->name('check_user');
 
         });
 
