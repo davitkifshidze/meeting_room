@@ -1,39 +1,6 @@
 /**
  * Calendar
  */
-
-// jQuery('#booking_room_calendar').datetimepicker({
-//     format: 'Y/m/d H:i',
-//     formatTime: 'H:i',
-//     formatDate: 'Y/m/d',
-//     inline: true,
-//     sideBySide: true,
-//     step: 15,
-//     disabledWeekDays: [0, 6],
-//     i18n: {
-//         ka: {
-//             months: [
-//                 'იანვარი', 'თებერვალი', 'მარტი', 'აპრილი', 'მაისი', 'ივნისი', 'ივლისი', 'აგვისტო', 'სექტემბერი', 'ოქტომბერი', 'ნოემბერი', 'დეკემბერი'
-//             ],
-//             dayOfWeekShort: [
-//                 "კვ", "ორშ", "სამშ", "ოთხ", "ხუთ", "პარ", "შაბ"
-//             ],
-//             dayOfWeek: ["კვირა", "ორშაბათი", "სამშაბათი", "ოთხშაბათი", "ხუთშაბათი", "პარასკევი", "შაბათი"]
-//         },
-//     },
-//     timepicker: false,
-//     disabledDates: [
-//         // დასვენების დღეების დამატება
-//         // '2023/07/19',
-//     ],
-//
-//     onSelectDate: function (date) {
-//
-//     },
-//
-// });
-
-
 let room_id = $('#curent__room').val();
 
 $.ajax({
@@ -209,9 +176,40 @@ $.ajax({
 
 
                                     if (time_box.classList.contains("close")) {
+
                                         showMessage('warning', 'მოცემული დროის დაჯავშნა შეუძლებელია', 1500, 'top-end');
+
                                     } else if (time_box.classList.contains("reserved")) {
-                                        showMessage('warning', 'მოცემული დრო უკვე დაჯავშნილია', 1500, 'top-end');
+
+                                        let reserved_date = selected_date + ' ' + time_box.getAttribute("data-time");
+                                        console.log(reserved_date)
+
+                                        $.ajax({
+                                            url: room_id + '/booking_info/' + reserved_date,
+                                            method: 'GET',
+                                            headers: {
+                                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                            },
+                                            data: {
+                                                'room_id': room_id,
+                                                'reserved_date': reserved_date
+                                            },
+                                            dataType: 'json',
+                                            success: function (response) {
+
+                                                if (response.status){
+                                                    let booking_user = response.booking_info.name
+                                                    showMessage('warning', 'მოცემული დრო უკვე დაჯავშნილია <br>' + booking_user + '-ის მიერ', 2500, 'top-end');
+                                                }
+
+
+                                            },
+                                            error: function (error) {
+                                                showMessage('error', 'ინფორმაციის მიღებისას დაფიქსირდა შეცდომა', 1500, 'top-end');
+                                            }
+                                        });
+
+
                                     } else {
                                         timeBoxClick(this)
                                     }
@@ -249,7 +247,13 @@ $.ajax({
                                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                                         },
                                         success: function (response) {
-                                            if (response.success) {
+
+                                            if (response.success && response.permission === false){
+
+                                                showMessage('warning', 'მომხმარებელს არ აქვს დაჯავშნის უფლება', 1500, 'top-end');
+
+
+                                            } else if (response.success) {
 
                                                 const user_id = response.user.id;
 

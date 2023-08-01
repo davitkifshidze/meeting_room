@@ -60,7 +60,7 @@
                                     <p>{{ __('admin.name') }}</p>
                                     <span><i class="fa-solid fa-snowflake"></i></span>
                                 </label>
-                                <input type="text" name="name[{{ $locale_code }}]" data-lang="{{ $locale_code }}" value="{{ old('name') }}">
+                                <input type="text"  name="name[{{ $locale_code }}]" data-lang="{{ $locale_code }}" value="{{ old('name') }}">
                             </div>
                         </div>
 
@@ -77,14 +77,14 @@
                             <label for="email" class="label">
                                 <p>{{ __('admin.start_date') }}</p>
                             </label>
-                            <input type="text" id="start_date" name="start_date" required="required" readonly autocomplete="off"/>
+                            <input type="text" id="start_date" name="start_date" onkeypress="return false" required autocomplete="off"/>
                         </div>
 
                         <div class="input__group  full px-0">
                             <label for="facebook" class="label">
                                 <p>{{ __('admin.end_date') }}</p>
                             </label>
-                            <input type="text" id="end_date" name="end_date" required="required" readonly autocomplete="off"/>
+                            <input type="text" id="end_date" name="end_date" onkeypress="return false" required autocomplete="off"/>
                         </div>
 
 

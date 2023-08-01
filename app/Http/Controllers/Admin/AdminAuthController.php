@@ -31,9 +31,9 @@ class AdminAuthController extends Controller
 
     public function login(AdminLogin $request)
     {
-        $credentials = $request->only('email', 'password');
+        $credentials = $request->only('username', 'password');
 
-        $user = User::where('email', $credentials['email'])->first();
+        $user = User::where('username', $credentials['username'])->first();
 
         if ($user && $user->admin == 1) {
             if (auth()->guard('admin')->attempt($credentials)) {

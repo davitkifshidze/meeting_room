@@ -8,6 +8,7 @@ use App\Models\Room;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class TabletController extends Controller
 {
@@ -17,8 +18,14 @@ class TabletController extends Controller
      */
     public function index($room_id)
     {
+        
+        $room = Room::select('rooms.id', 'rooms.status', 'rooms.start_date', 'rooms.end_date', 'room_translations.locale', 'room_translations.name')
+            ->join('room_translations', 'room_translations.room_id', '=', 'rooms.id')
+            ->where('room_translations.locale', '=', LaravelLocalization::getCurrentLocale())
+            ->where('rooms.id', '=', $room_id)
+            ->first();
 
-        return view('tablet.booking.create', with(['room_id' => $room_id]));
+        return view('tablet.booking.create', with(['room_id' => $room_id, 'room' => $room]));
 
     }
 
@@ -37,6 +44,7 @@ class TabletController extends Controller
         return response()->json(['room' => $room]);
 
     }
+
 
     /**
      * Room Booking Info
@@ -101,17 +109,60 @@ class TabletController extends Controller
         $user = User::where('username', $username)->first();
 
         if ($user && password_verify($password, $user->password)) {
-            return response()->json([
-                'success' => true,
-                'message' => 'მომხმარებელი ვალიდურია',
-                'user' => $user,
-            ]);
+
+
+            if($user->hasPermissionTo('Booking Create', 'admin')):
+
+                return response()->json([
+                    'success' => true,
+                    'message' => 'მომხმარებელი ვალიდურია',
+                    'user' => $user,
+                ]);
+
+
+            else:
+
+                return response()->json([
+                    'success' => true,
+                    'permission' => false,
+                    'message' => 'მომხმარებელს არ აქვს დაჯავშნის უფლება',
+                    'user' => $user,
+                ]);
+
+            endif;
+
+
+
         } else {
             return response()->json([
                 'success' => false,
                 'message' => 'მსგავსი მომხმარებელი არარსებობს',
             ]);
         }
+
+    }
+
+
+
+    /**
+     * Booking Info
+     */
+    public function booking_info($room_id,$reserved_date)
+    {
+
+        $booking_info = Booking::select('bookings.id', 'bookings.room_id', 'bookings.user_id', 'bookings.start_date')
+            ->addSelect('users.name')
+            ->join('users','users.id','=','bookings.user_id')
+            ->where('bookings.room_id', '=', $room_id)
+            ->where('bookings.start_date', '=', $reserved_date)
+            ->first();
+
+
+        return response()->json([
+            'status' => true,
+            'booking_info' => $booking_info,
+        ]);
+
 
     }
 

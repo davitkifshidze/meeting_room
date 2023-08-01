@@ -19,6 +19,11 @@
 
     <div class="page__container">
 
+
+        <div class="room__title">
+            <p>{{ $room->name }}</p>
+        </div>
+
         <div class="form__container">
 
             @if ($errors->any())

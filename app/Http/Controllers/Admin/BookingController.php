@@ -53,6 +53,10 @@ class BookingController extends Controller
         if(!empty($request->room)){
             $query->where('bookings.room_id', '=', $request->input('room'));
         }
+
+        $query->orderBy('bookings.start_date', 'DESC');
+
+
         $bookings = $query->paginate(10)->withQueryString();
 
 

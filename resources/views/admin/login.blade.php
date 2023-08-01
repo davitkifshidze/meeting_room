@@ -55,7 +55,7 @@
                             <div class="input__icon__container">
                                 <i class="input__icon fa-regular fa-envelope"></i>
                             </div>
-                            {!! Form::email('email', '', ['class' => 'input__with__icon form__input', 'placeholder' => 'admin@gmail.com','id' => 'email', 'required' => 'required']) !!}
+                            {!! Form::text('username', '', ['class' => 'input__with__icon form__input', 'placeholder' => 'username','id' => 'username', 'required' => 'required']) !!}
                         </div>
                     </div>
                     <div class="login__form__group">

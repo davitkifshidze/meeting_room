@@ -79,6 +79,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function()
             Route::get('room_booking_info/{selected_date}', [TabletController::class, 'room_booking_info'])->name('tablet_room_booking_info');
             Route::post('store', [TabletController::class, 'store'])->name('tablet_booking');
             Route::post('check_user', [TabletController::class, 'check_user'])->name('check_user');
+            Route::get('booking_info/{reserved_date}', [TabletController::class, 'booking_info'])->name('booking_info');
 
         });
 

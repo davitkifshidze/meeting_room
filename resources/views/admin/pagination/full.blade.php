@@ -116,11 +116,11 @@
 
             @if (!$paginator->onFirstPage())
 
-                <li class="">
-                    <a class="page" href="{{ $paginator->url(1) }}">
-                        <i class="fa-solid fa-circle-chevron-left"></i>
-                    </a>
-                </li>
+{{--                <li class="">--}}
+{{--                    <a class="page" href="{{ $paginator->url(1) }}">--}}
+{{--                        <i class="fa-solid fa-circle-chevron-left"></i>--}}
+{{--                    </a>--}}
+{{--                </li>--}}
 
                 <li class="">
                     <a class="page" href="{{ $paginator->previousPageUrl() }}">
@@ -157,11 +157,11 @@
                     </a>
                 </li>
 
-                <li class="">
-                    <a class="page" href="{{ $paginator->url($paginator->lastPage()) }}">
-                        <i class="fa-solid fa-circle-chevron-right"></i>
-                    </a>
-                </li>
+{{--                <li class="">--}}
+{{--                    <a class="page" href="{{ $paginator->url($paginator->lastPage()) }}">--}}
+{{--                        <i class="fa-solid fa-circle-chevron-right"></i>--}}
+{{--                    </a>--}}
+{{--                </li>--}}
 
             @endif
 
