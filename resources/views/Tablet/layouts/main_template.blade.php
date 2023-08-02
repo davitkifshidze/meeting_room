@@ -38,6 +38,8 @@
     <script src="{{ asset('js/admin/app.js') }}"></script>
     @yield('header-script')
 
+    
+
 </head>
 <body>
 

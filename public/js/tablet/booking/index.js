@@ -144,6 +144,9 @@ $.ajax({
                             const time_boxes = document.querySelectorAll(".time__box");
                             let selected_times = [];
                             let booking_date = [];
+                            let booking_date_view = [];
+                            let newDate;
+                            var monthNames = [ "იან", "თებ", "მარ", "აპრ", "მაი", "ინვ", "ივლ", "აგვ", "სექტ", "ოქტ", "ნოემ", "დეკ" ];
 
                             function timeBoxClick(event) {
 
@@ -160,10 +163,16 @@ $.ajax({
                                 }
 
                                 booking_date.splice(0);
+                                booking_date_view.splice(0);
+
                                 selected_times.forEach((time) => {
                                     booking_date.push(selected_date + ' ' + time);
+                                    newDate = new Date(selected_date + ' ' + time);
+                                    newDateView = newDate.getDate() + ' ' + monthNames[newDate.getMonth()] + ' ' + newDate.getFullYear() + ' ' + ("0" + newDate.getHours()).slice(-2) + ':' + ("0" + newDate.getMinutes()).slice(-2);
+                                    booking_date_view.push(newDateView + '<br />');
                                 });
 
+                                $('.chosen_date').html(booking_date_view);
 
                             }
 
@@ -235,7 +244,7 @@ $.ajax({
                                 });
 
                                 $('#user__form').unbind('submit').submit(function (event){
-
+                                    
                                     event.preventDefault();
 
                                     $.ajax({
