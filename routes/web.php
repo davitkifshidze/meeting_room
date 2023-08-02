@@ -1,14 +1,11 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminAuthController;
-use App\Http\Controllers\Admin\AuthorController;
 use App\Http\Controllers\Admin\BookingController;
-use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\Admin\RoomController;
-use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\SyncController;
 use App\Http\Controllers\Tablet\TabletController;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
@@ -69,8 +66,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function()
 
     });
 
-
-    Route::group(['prefix' => 'tablet', 'namespace' => 'Tablet'], function () {
+    Route::group(['prefix' => 'tablet', 'namespace' => 'tablet'], function () {
 
         Route::group(['prefix' => '{room_id}'], function () {
 
@@ -85,9 +81,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function()
 
     });
 
-
-
-
-
 });
 
+
+Route::get('/sync', [SyncController::class, 'sync'])->name('sync');

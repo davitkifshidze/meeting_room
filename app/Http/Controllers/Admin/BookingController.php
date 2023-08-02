@@ -102,7 +102,7 @@ class BookingController extends Controller
     public function room_booking_info($room_id, $selected_date)
     {
 
-        $booking = Booking::select('bookings.id', 'bookings.room_id', 'bookings.start_date', 'bookings.end_date', 'users.id as user_id', 'users.color')
+        $booking = Booking::select('bookings.id', 'bookings.room_id', 'bookings.start_date', 'bookings.end_date', 'users.id as user_id')
             ->join('users','users.id','=','bookings.user_id')
             ->where('bookings.room_id', '=', $room_id)
             ->where('bookings.start_date', 'LIKE', '%' . $selected_date . '%')

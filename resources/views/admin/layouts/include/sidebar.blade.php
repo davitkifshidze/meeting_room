@@ -8,7 +8,10 @@
         <div class="shrink__btn">
             <i id="shrink" class="fa-solid fa-bars"></i>
         </div>
-        <h3 class="header__title sidebar__logo__title">Todua</h3>
+
+        <a href="{{ route('dashboard') }}">
+            <h3 class="header__title sidebar__logo__title">Todua</h3>
+        </a>
     </div>
 
     <div class="sidebar__main__content">
